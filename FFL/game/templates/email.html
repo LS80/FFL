@@ -1,0 +1,165 @@
+<html>
+<head>
+<style>
+* {padding:0px; margin: 0px}
+p,table{font-family: Lucida Sans Unicode; color:#188bc2; font-size:10pt; margin:15px;}
+li{font-family: Lucida Sans Unicode; color:#188bc2; font-size:10pt; margin:5px;}
+h1{font-family: Lucida Sans Unicode; color:#188bc2; font-size:18pt; font-weight:bold; margin:15px;}
+h2{font-family: Lucida Sans Unicode; color:#188bc2; font-size:11pt; font-weight:bold; margin:15px;}
+</style>
+</head>
+
+<body bgcolor='#eeeeee'>
+
+<h1>Fantasy Football League</h1>
+<h2>Week {{ week }} (starting {{ date|date:"D j/n" }})</h2>
+
+<p>
+Hello!
+</p>
+<p>
+Congratulations to this week's winner......<span style="color:red;">{{ week_winners|join:" and " }}</span><span style="color:red;"> ({{ points }} pts)</span>
+</p>
+
+<p>The best performing players this week were:</p>
+
+{% regroup best_players by player.position as players %}
+<p>
+{% for position in players %}
+{{ position.grouper }}<br>
+	{% for object in position.list %}
+	&nbsp;&nbsp;<a href="http://localhost/ffl/{% url FFL.players.views.player object.player.code %}">{{ object.player.name }}</a>
+	 - {{ object.player.club }} ({{ object.points }} pts)<br>
+	 	{% endfor %}
+	<br>
+{% endfor %}
+</p>
+
+<p>Statistics for the season:</p>
+
+<p>
+{% for position, player in stats.most_points.items %}
+	&nbsp;&nbsp;Best {{ position|lower }}: <a href="http://localhost/ffl/{% url FFL.players.views.player player.code %}">{{ player.name }}</a>
+	 - {{ player.club }} ({{ player.total_points }} pts)<br>
+{% endfor %}	
+</p>
+
+<p>
+{% for position, player in stats.best_value.items %}
+	&nbsp;&nbsp;Best value {{ position|lower }}: <a href="http://localhost/ffl/{% url FFL.players.views.player player.code %}">{{ player.name }}</a>
+	 - {{ player.club }} ({{ player.pv|floatformat:"1" }} pts/value)<br>
+{% endfor %}	
+</p>
+
+<p>
+{% for position, player in stats.most_popular.items %}
+	&nbsp;&nbsp;Most popular {{ position|lower }}: <a href="http://localhost/ffl/{% url FFL.players.views.player player.code %}">{{ player.name }}</a>
+	 - {{ player.club }} ({{ player.teams }} teams)<br>
+{% endfor %}
+</p>
+
+<p style="font-size:11pt; color:#e58529;">WEEK TOP {{ week_top|length }}</p>
+
+<p>
+<table cellspacing="1px" border="0" bgcolor="white" style="color:#003399; font-size:9pt;">
+	<tr>
+		<th bgcolor="#92c9e3" style="padding:2px 8px 2px 8px;"><b>Manager</b></th>
+		<th bgcolor="#92c9e3" style="padding:2px 8px 2px 8px;"><b>Team</b></th>
+		<th bgcolor="#92c9e3" style="padding:2px 8px 2px 8px;"><b>Week Score</b></th>
+	</tr>
+	{% for row in week_top %}
+	<tr style="background:#{% cycle 'b0e4ec' 'cdeff3' %}; padding:0px 8px 2px 8px;">
+		<td align="center" style="padding:2px 8px 2px 8px;">
+		    <a href="http://localhost/ffl/{% url FFL.teams.views.team row.team.manager|slugify %}">{{ row.team.manager }}</a>
+		</td>
+		<td align="center" style="padding:2px 8px 2px 8px;">{{ row.team.team_name }}</td>
+		<td align="center" style="padding:2px 8px 2px 8px;">{{ row.points }}</td>
+	</tr>
+	{% endfor %}
+</table>
+</p>
+
+<p>
+The full weekly performance table is <a href="http://localhost/ffl/{% url FFL.teams.views.weekly_performance %}">here</a>.
+</p>
+
+<p style="font-size:10.5pt; color:#e58529;">LEAGUE TOP {{ league_top|length }}</p>
+
+<p>
+<table cellspacing="1px" border="0" bgcolor="white" style="color:#003399; font-size:9pt;">
+	<tr>
+		<th bgcolor="#92c9e3" style="padding:2px 8px 2px 8px;"><b>Rank</b></th>
+		<th bgcolor="#92c9e3" style="padding:2px 8px 2px 8px;"><b>Manager</b></th>
+		<th bgcolor="#92c9e3" style="padding:2px 8px 2px 8px;"><b>Team</b></th>
+		<th bgcolor="#92c9e3" style="padding:2px 8px 2px 8px;"><b>Subs Used</b></th>
+		<th bgcolor="#92c9e3" style="padding:2px 8px 2px 8px;"><b>Total Score</b></th>
+		<th bgcolor="#92c9e3" style="padding:2px 8px 2px 8px;"><b>Change</b></th>
+	</tr>
+	<tbody>
+	{% for team in league_top %}
+	<tr style="background:#{% cycle 'b0e4ec' 'cdeff3' %};">
+		<td align="center" style="padding:2px 8px 2px 8px;">{{ forloop.counter }}</td>
+		<td align="center" style="padding:2px 8px 2px 8px;">
+		    <a href="http://localhost/ffl/{% url FFL.teams.views.team team.manager|slugify %}">{{ team.manager }}</a>
+		</td>
+		<td align="center" style="padding:2px 8px 2px 8px;">{{ team.team_name }}</td>
+		<td align="center" style="padding:2px 8px 2px 8px;">{{ team.subs_used }}</td>
+		<td align="center" style="padding:2px 8px 2px 8px;">{{ team.total_points }}</td>
+		{% if team.league_movement < 0 %}
+		<td align="center" style="color:red; font-weight:bold; padding:2px 8px 2px 8px;">{{ team.league_movement }}</td>
+		{% endif %}
+		{% if team.league_movement > 0 %}
+		<td align="center" style="color:green; font-weight:bold; padding:2px 8px 2px 8px;">+{{ team.league_movement }}</td>
+		{% endif %}
+		{% if team.league_movement == 0 %}
+		<td align="center" style="color:black; font-weight:bold; padding:2px 8px 2px 8px;">{{ team.league_movement }}</td>
+		{% endif %}
+	</tr>
+	{% endfor %}
+	</tbody>
+</table>
+</p>
+
+<p>
+The full league table is <a href="http://localhost/ffl/{% url FFL.teams.views.league %}">here</a>.
+</p>
+
+<p>
+<img src="cid:image1" alt="league graph">
+</p>
+
+<p>
+To look at the graph of how your team is progressing against other teams, go <a href="http://localhost/ffl/{% url FFL.teams.views.graph %}">here</a>.
+</p>
+
+<p style="color:red;">
+Please email your transfers to Lee with the subject "FFL Transfers".
+<br>
+You can use <a href="mailto:lee@lee-smith.me.uk?subject=FFL Transfers">this link</a> or click the arrows on your team page.
+</p>
+
+{% if new_players %}
+<p>
+New players available this week:
+</p>
+{% endif %}
+
+{% regroup new_players by position as players %}
+<p>
+{% for position in players %}
+{{ position.grouper }}<br>
+	{% for player in position.list %}
+	&nbsp;&nbsp;<a href="http://localhost/ffl/{% url FFL.players.views.player player.code %}">{{ player.name }}</a> - {{ player.club }} (&pound;{{ player.value }}m)<br>
+	{% endfor %}
+	<br>
+{% endfor %}
+</p>
+
+<p>
+Since the game week starts on a Tuesday that's the best day to send transfers.
+</p>
+
+<p>Cheers,<br>Lee</p>
+
+</body>
+</html>

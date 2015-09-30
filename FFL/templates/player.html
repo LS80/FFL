@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block title %}{{ player.name }}{% endblock %}
+
+{% block css %}
+<link href="{{ STATIC_URL }}player.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+<div id="container">
+	<h2>{{ player.name }}</h2>
+	<p>{{ player.position }}</p>
+	<p>Club: {{ player.club }}</p>
+	<p>Value: &pound;{{ player.value }}m</p>
+	<p>Games played: {{ player.games }}</p>
+	<p>Total points: {{ player.total_points }}</p>
+	{% if week > 0 %}
+		{% if playing_for %}
+			<p>{{ player.name }} is currently selected by {{ playing_for|length }} team{{ playing_for|length|pluralize }} (league position)</p>
+			<ul class="team_list">
+			{% for team in playing_for %}
+				<li><a href="{% url 'teams.views.team' team.manager|slugify %}">{{ team.manager }}</a> ({{ team.league_position }})</li>
+			{% endfor %}
+			</ul>
+		{% else %}
+			<p>{{ player.name }} is not currently selected by any teams</p>
+		{% endif %}
+		
+		{% if subbed_by %}
+			<p>{{ player.name }} has been substituted by {{ subbed_by|length }} team{{ subbed_by|length|pluralize }} (league position)</p>
+			<ul class="team_list">
+			{% for team in subbed_by %}
+				<li><a href="{% url 'teams.views.team' team.manager|slugify %}">{{ team.manager }}</a> ({{ team.league_position }})</li>
+			{% endfor %}
+			</ul>
+		{% else %}
+			<p>{{ player.name }} has not been substituted by any teams</p>
+		{% endif %}
+	{% endif %}
+	<br>
+	<h4>Weekly Performance</h4>
+	<img src="{% url 'players.views.player_wp' player.code %}">
+</div>
+{% endblock %}

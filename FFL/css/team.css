@@ -1,0 +1,31 @@
+.player{list-style-type: none; text-align: center; padding:2px 5px; color:#000000}
+.name{text-transform:uppercase; text-decoration:none; font-size:1.1em; color:#008AD1;}
+.position{}
+.club{font-size:0.8em;}
+.value{font-size:0.9em;}
+.points{font-size:0.9em;}
+.total{font-weight:bold;}
+.weekly{color:#0000FF;}
+.date{font-size:0.9em;}
+.in{color:green; text-align:right;}
+.out{color:red}
+.week{font-weight:normal;}
+
+.playercontainer{
+width:140px;
+height:60px;
+}
+
+.playerinfo{
+margin:0px;
+padding:0px;
+}
+
+#weeklyperformance{display: block; margin-left:auto; margin-right:auto; padding-bottom:40px;}
+
+#totalcost{float:left; color:#777777; padding-top:10px;}
+#teaminfo{float:right; color:#000000; padding-top:10px;}
+
+#weeklinks{font-size:12px; float:right; margin-right:20px;}
+#teamlinks{font-size:12px; float:left; margin-left:20px;}
+#sublink{display:block; margin-left:auto; margin-right:auto; border:none; padding-bottom:20px;}

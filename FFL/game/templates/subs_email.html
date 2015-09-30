@@ -1,0 +1,51 @@
+<html>
+<head>
+<style type="text/css">
+	body, table {font-family:Calibri;}
+	.in {color: green;}
+	.out {color: red;}
+</style>
+</head>
+<body>
+<p>Hi {{ team.manager|truncatewords:1 }}</p>
+<p>Here is a confirmation of your substitution{{ players_out|pluralize }}, effective from {{ date }} (week {{ week }})</p>
+
+<table>
+<tr>
+
+<td>
+<table class="out">
+	<caption><strong>Out</strong></caption>
+	{% for player in players_out %}
+    <tr>
+    	<td><strong>{{ player.name }}</strong></td>
+    	<td>{{ player.position }}</td>
+    	<td>{{ player.club }}</td>
+    	<td>&pound;{{ player.value }}m</td>
+	</tr>
+	{% endfor %}
+</table>
+</td>
+
+<td>
+<table class="in">
+	<caption><strong>In</strong></caption>
+	{% for player in players_in %}
+    <tr>
+    	<td><strong>{{ player.name }}</strong></td>
+    	<td>{{ player.position }}</td>
+    	<td>{{ player.club }}</td>
+    	<td>&pound;{{ player.value }}m</td>
+	</tr>
+	{% endfor %}
+</table>
+</td>
+
+</tr>
+</table>
+
+<p>Team cost: &pound;{{ team.total_cost }}m</p>
+
+<p>Fantasy Football League</p>
+</body>
+</html>

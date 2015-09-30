@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block title %}Graph{% endblock %}
+
+{% block nav-graph %}<strong class="active">Graph</strong>{% endblock %}
+
+{% block css %}
+    <link href="{{ STATIC_URL }}graph.css" rel="stylesheet" type="text/css" />
+    <link href="{{ STATIC_URL }}jquery.asmselect.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{{ STATIC_URL }}jquery-1.5.2.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}jquery.asmselect.js"></script>
+    <script type="text/javascript">
+		$(document).ready(function() {
+		    $("select[multiple]").asmSelect();
+		});
+	</script>
+{% endblock %}
+
+{% block content %}
+<div id="container">
+	{% if week = 0 %}
+	<p>When the season starts you will be able to plot the teams&apos; progress.</p>
+    {% else %}
+	<div class="text">
+		<div>
+			<p>Select the teams to plot, then click "Plot". The week fields are optional.</p>
+		</div>
+		<div>
+		    <form action="" method="get">
+		        <table id="teams">
+		            {{ form.as_table }}          
+					<tr><td></td><td><input type="submit" value="Plot"></td></tr>
+		        </table>
+		    </form>
+	    </div>
+	</div>
+    
+    {% if teams %}
+    <div id="plot">
+    	{% if from_week and to_week %}
+    	<img src="{% url 'teams.views.graph_plot' teams from_week to_week%}">
+    	{% else %}
+        <img src="{% url 'teams.views.graph_plot' teams%}">
+        {% endif %}	
+    </div>
+    {% endif %}
+    
+    {% endif %}
+</div>
+{% endblock %}
+

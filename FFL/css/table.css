@@ -1,0 +1,48 @@
+#playerstable{width:600px;}
+#teamtable, #substable{width:400px;}
+
+table {
+font: 100% "Lucida Sans Unicode";
+color:#188bc2;
+font-size:.75em;
+background:#fff;
+border:2px solid #9b8fc5;
+padding:5px;
+margin-left: auto; margin-right: auto;
+}
+
+th,td {text-align:center}
+th,td {padding:5px}
+th.heading{padding:1px}
+
+/* odd rows in extra light blue */
+*.odd  {background-color:#cdeff3}
+
+td.up{font-weight:bold; color:green}
+td.down{font-weight:bold; color:red}
+td.same{font-weight:bold; color:black}
+
+table a,table a:link,table a:visited ,table a:active{font-size:1em; color:#039; outline:none; text-decoration:none;}
+
+caption {font-size:1.6em; margin:0px; color:#777777; padding-bottom: 10px;}
+
+/* heading text in dark blue */
+thead {color:#039}
+
+/* footer background in blue */
+tfoot th{background:#92c9e3; font-size:.9em}
+
+/* table body background in light blue */
+tbody {background-color:#b0e4ec}
+
+/* row hover background in green, text in white */
+tr:hover {background-color:#94ce4b; color:#fff}
+
+/* cell hover background in orange, text in dark blue, crosshair cursor */
+tr td:hover {background-color:#ffb542; color:#039; cursor:default}
+
+
+tr.heading {background:#92c9e3; font-size:.9em, color:#039}
+tr.heading:hover th, th.heading:hover {background:#92c9e3; cursor:default !important}
+
+table:hover {border-color:#1c0082}

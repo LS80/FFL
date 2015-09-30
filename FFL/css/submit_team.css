@@ -1,0 +1,31 @@
+
+input[type='text'], select {width:200px; color:#003399;}
+
+label {color:black;}
+
+th {text-align:right;}
+.helptext {display:none;}
+
+.asmListItemLabel {width:250px;}
+
+li {
+	list-style-type:none; text-align: left;
+}
+
+.errorlist li {
+	color:red;
+}
+
+.info {color:#003399;}
+
+.positive {color:green}
+.negative {color:red}
+
+#submit {float: left; margin: 0px 60px 20px 120px;}
+
+#budget {float: left; margin-top: 250px;}
+#budget_rem {font-size: 1.4em;}
+
+#error_msg {color: red; font-weight:bold;}
+
+

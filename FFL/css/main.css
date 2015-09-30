@@ -1,0 +1,116 @@
+*{margin:0;padding:0;}
+
+html, body {
+text-align: center;
+}
+
+p, ul {text-align: left; margin: 0px; padding: 5px 0px;}
+
+ul {list-style-type: none;}
+
+.empty {line-height: 0px; margin: 0px; padding: 0px;}
+
+body {
+width:950px;
+margin:30px auto;
+font-size:14px; 
+font-family: Lucida Sans Unicode, Luxi Sans;
+}
+
+.large {font-size:36px;}
+.centre {margin-left:auto; margin-right:auto;}
+.pagetitle {color:#777777; font-size: 18px; font-weight: bold; text-align:left; padding-top:30px; padding-left:30px; margin:0px; clear:both}
+.alignleft {float: left;}
+.alignright {float: right;}
+.container {padding-left:15px; padding-right:15px}
+.nodec {text-decoration: none;}
+.strike {text-decoration: line-through;}
+
+div.text {margin:0px; padding:30px; text-align:justify;}
+
+.divider {height:2px; background-color:black; margin:0px; clear: both;}
+
+#header {
+border-top-left-radius: 25px; border-top-right-radius: 25px;
+width:950px;
+height:105px;
+background-color:#FFFFFF;
+text-align:center;
+}
+
+#navigation {
+width:950px;
+height:40px;
+background-color:#94CE4B;
+margin-top:0px;
+}
+
+#content { 
+width:950px;
+min-height:450px;
+background-color:#FFFFFF;
+margin:0px;
+}
+
+#footer { 
+width:950px;
+height:60px;
+line-height:60px;
+background-color:#94CE4B;
+margin-top:0px;
+border-bottom-left-radius: 25px; border-bottom-right-radius: 25px;
+clear: both;
+}
+
+#headerlogo {display:inline-block; margin: auto;}
+#logo {border:none; float: left;}
+#title {color:#777777; font-size: 36px; font-weight: bold; margin: 40px 0 0 5px; float: left;}
+
+#container {padding:30px}
+
+.menu {text-align: center; margin:0; padding:0;}
+
+.menu ul {text-align: center; margin:0; padding:0;}
+
+.menu li {
+	float:left;
+	list-style-type:none;
+	font-size:15px;
+	padding-left:26px;
+	padding-top:8px;
+}
+
+.menu strong {
+	text-decoration:none;
+	color:#202020;
+	font-weight: bold;
+}
+
+.menu li a:link, .menu li a:visited {
+	display:block;
+	color: #003399;
+    text-decoration: underline;
+	background-color:#94CE4B;
+	margin:0;
+}
+
+.menu li ul {
+	position:absolute;
+	visibility:hidden;
+	margin:0;
+	padding:0;
+}
+
+.menu li ul li {
+	display:inline;
+	float:none;
+	padding:0;
+}
+
+.menu li ul li a:link, .menu li ul li a:visited {
+	width:auto;
+	padding:4px;
+}
+
+
+

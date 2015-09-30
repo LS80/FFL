@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block css %}
+<link href="{{ STATIC_URL }}table.css" rel="stylesheet" type="text/css" />
+<link href="{{ STATIC_URL }}sortable.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block js %}
+<script language="javascript" src="{{ STATIC_URL }}tablesort.js"></script>
+{% endblock %}
+
+{% block content %}
+<div id="container">
+	<p>
+		Download the list of players for Excel {% block csv %}{% endblock %}
+	</p>
+	<table id="playerstable" summary="Player points" class="sortable-onload-2 no-arrow rowstyle-odd">
+		<caption>{% block title %}{% endblock %} List {{ date }}</caption>
+		<thead>
+			<tr>
+                <th scope="col" class="sortable-text">Player</th> 
+				<th scope="col" class="sortable-text">Club</th>
+				<th scope="col" class="sortable-numeric favour-reverse">Value</th>
+				<th scope="col" class="sortable-numeric favour-reverse">Points</th>
+				<th scope="col" class="sortable-numeric favour-reverse">Games</th>
+				<th scope="col" class="sortable-numeric favour-reverse">Points/Value</th>
+				<th scope="col" class="sortable-numeric favour-reverse">Points/Games</th>
+				<th scope="col" class="sortable-numeric favour-reverse">Teams</th>
+			</tr>
+		</thead>
+		<tfoot><tr><th colspan="8"></th></tr></tfoot>
+		<tbody>
+			{% for player in players %}
+			<tr>
+				<td id="name">
+				{% if week > 0 %}
+					<a id="name" href="{% url 'player' player.code %}">{{ player.name }}</a>
+				{% else %}
+					{{ player.name }}
+				{% endif %}
+				</td>
+				<td id="club">{{ player.club }}</td>
+				<td id="value">&pound;{{ player.value }}m</td>
+				<td id="points">{{ player.total_points }}</td>
+				<td id="games">{{ player.games }}</td>
+				<td id="points/value">{{ player.pv|floatformat }}</td>
+				<td id="points/games">{{ player.pg|floatformat }}</td>
+				<td id="teams">{{ player.teams }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>		
+	</table>
+</div>
+{% endblock %}

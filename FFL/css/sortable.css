@@ -1,0 +1,13 @@
+
+th.sortable-text,
+th.sortable-numeric,
+th.sortable-sortSurname
+ {
+   cursor:pointer;
+   background:url(sortable.jpg) no-repeat;
+   padding: 8px 5px 10px 14px;
+}
+
+th.forwardSort{background:url(down.jpg) no-repeat 0 0;}
+th.reverseSort{background:url(up.jpg) no-repeat 0 0;}
+

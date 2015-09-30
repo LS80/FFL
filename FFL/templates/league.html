@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block title %}League Table{% endblock %}
+
+{% block nav-league %}<strong class="active">League</strong>{% endblock %}
+
+{% block css %}
+<link href="{{ STATIC_URL }}table.css" rel="stylesheet" type="text/css" />
+<link href="{{ STATIC_URL }}sortable.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block js %}
+<script language="javascript" src="{{ STATIC_URL }}tablesort.js"></script>
+{% endblock %}
+
+{% block content %}
+<div id="container">
+	<table id="leaguetable" summary="Latest league table">
+		<caption>{{ type }}League Table</caption>
+		<thead>
+			<tr class="heading">
+				<th scope="col">Rank</th>
+				<th scope="col">Manager</th>
+				<th scope="col">Team</th>
+				<th scope="col">Subs Used</th>
+				<th scope="col">Total Score</th>
+				<th scope="col">Change</th>
+			</tr>
+		</thead>
+		<tfoot><tr><th colspan="6"></th></tr></tfoot>
+		<tbody>
+			{% for team in teams %}
+			<tr>
+				<td>{{ forloop.counter }}</td>
+				<td>
+				{% if week = 0 %}
+					{{ team.manager }}
+				{% else %}
+					<a href="{% url 'teams.views.team' team.manager|slugify %}">{{ team.manager }}</a>
+				{% endif %}
+				</td>
+				<td>{{ team.team_name }}</td>
+				<td>{{ team.subs_used }}</td>
+				<td>{{ team.total_points }}</td>
+				{% if team.league_movement < 0 %}
+				<td class="down">{{ team.league_movement }}</td>
+				{% else %}
+				{% if team.league_movement > 0 %}
+				<td class="up">+{{ team.league_movement }}</td>
+				{% else %}
+				<td class="same">{{ team.league_movement }}</td>
+				{% endif %}
+				{% endif %}
+			</tr>
+			{% endfor %}
+		</tbody>		
+	</table>
+</div>
+
+{% endblock %}

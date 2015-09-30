@@ -1,0 +1,94 @@
+{% load static %}
+{% get_static_prefix as STATIC_URL %}
+{% load url from future %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title id="pagetitle">{% block title %}{% endblock %} - Fantasy Football League</title>
+
+<link rel="shortcut icon" href="{{ STATIC_URL }}favicon.ico" type="image/x-icon" />
+<link href="{{ STATIC_URL }}main.css" rel="stylesheet" type="text/css" />
+
+{% block css %}{% endblock %}
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+		$('.menu > li').bind('mouseover', openSubMenu);
+		$('.menu > li').bind('mouseout', closeSubMenu);
+		
+		function openSubMenu() {
+			$(this).find('ul').css('visibility', 'visible');	
+		};
+		
+		function closeSubMenu() {
+			$(this).find('ul').css('visibility', 'hidden');	
+		};		   
+});
+</script>
+
+{% block js %}{% endblock %}
+
+</head>
+
+<body background="{{ STATIC_URL }}background.jpg">
+
+<div id="header">
+	<div id="headerlogo">
+		<a name="top" href="{% url 'views.home' %}" class="nodec">
+			<img id="logo" src="{{ STATIC_URL }}ball.png" height="80px" width="80px" alt="" />
+			<span id="title">Fantasy Football League</span>
+		</a>
+	</div>
+</div>
+
+<div class="divider"><p class="empty"></p></div>
+
+<div id="navigation">
+	<ul id="toplinks" class="menu">
+		<li>{% block nav-home %}<a href="{% url 'views.home' %}">Home</a>{% endblock %}</li>
+		<li>{% block nav-submit %}<a href="{% url 'teams.views.submit_team' %}">Submit Team</a>{% endblock %}</li>
+		<li>{% block nav-league %}<a href="{% url 'teams.views.league' %}">League</a>{% endblock %}
+			<ul>
+				<li><a href="{% url 'teams.views.league' %}">Main League</a></li>
+				<li><a href="{% url 'teams.views.joke_league' %}">Joke League</a></li>
+			</ul>
+		</li>
+		<li>{% block nav-weeklyperformance %}<a href="{% url 'teams.views.weekly_performance' %}">Weekly Performance</a>{% endblock %}</li>
+		<li>{% block nav-graph %}<a href="{% url 'teams.views.graph' %}">Graph</a>{% endblock %}</li>
+		<li>{% block nav-goalkeepers %}<a href="{% url 'players.views.goalkeepers' %}">Goalkeepers</a>{% endblock %}</li>
+		<li>{% block nav-defenders %}<a href="{% url 'players.views.defenders' %}">Defenders</a>{% endblock %}</li>
+		<li>{% block nav-midfielders %}<a href="{% url 'players.views.midfielders' %}">Midfielders</a>{% endblock %}</li>
+		<li>{% block nav-strikers %}<a href="{% url 'players.views.strikers' %}">Strikers</a>{% endblock %}</li>
+	</ul>
+</div>
+
+<div class="divider"><p class="empty"></p></div>
+	
+<div id="content">
+
+{% block content %}{% endblock %}
+
+<br style="clear: both" />
+</div>
+
+<div class="divider"><p class="empty"></p></div>
+	
+<div id="footer">
+
+	<div class="container">
+		<div class="alignleft">Fantasy Football League</div>
+		<div class="alignright">
+			<a href="#top">Back to top</a> |
+			<a href="mailto:lee@lee-smith.me.uk?subject=FFL">Contact Us</a>
+		</div>
+	</div>
+	
+</div>
+
+</body>
+</html>

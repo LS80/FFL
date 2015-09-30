@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block title %}{{ team.team_name }}{% endblock %}
+
+{% block css %}
+<link href="{{ STATIC_URL }}team.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+
+{% if latest_week = 0 %}
+<div id="container">
+	<p>The team will be visible after the season starts.</p>
+</div>
+{% else %}
+
+<p id="weeklinks">
+	{% if week_links|first %}
+	<a href="{% url 'teams.views.team' team.manager|slugify week|add:-1 %}">&lt; Previous Week</a>
+	{% endif %}
+	{% if week_links|last %}
+	&nbsp;|&nbsp;
+	<a href="{% url 'teams.views.team' team.manager|slugify week|add:1 %}">Next Week &gt;</a>
+	{% endif %}
+</p>
+
+<p id="teamlinks">
+	<a href="{% url 'teams.views.team' team_links|first|slugify %}">&lt; Previous Team</a>
+	&nbsp;|&nbsp;
+	<a href="{% url 'teams.views.team' team_links|last|slugify %}">Next Team &gt;</a>
+</p>
+
+<h1 class="pagetitle">{{ team.manager }} - {{ team.team_name }}</h1>
+
+<h1 class="pagetitle">Week {{ week }} ({{ date_from|date:"D j/n" }} - {{ date_to|date:"D j/n" }})</h1>
+
+<div id="teamcontainer">
+	<table class="centre" summary="Latest Team Points">
+		<thead>
+			<tr>
+				<th></th>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<th>
+					<span id="totalcost">Total Cost: &pound;{{ team.total_cost }}m</span>
+					<span id="teaminfo">Total Points: {{ team.total_points }}&nbsp;&nbsp;&nbsp;&nbsp;League Position: {{ team.league_position }}</span>
+				</th>
+			</tr>
+		</tfoot>
+		<tbody>
+			<tr>
+				<td align="center" id="team">
+				{% regroup players by player.position as player_list %}
+				{% for section in player_list %}
+					<table>
+						<tr>
+						{% for p in section.list %}
+							<td class="playercontainer">
+								<ul class="playerinfo">
+									<li class="player"><a href="{% url 'players.views.player' p.player.code %}" class="name">{{ p.player.name }}</a></li>
+									<li class="player club">{{ p.player.club }}</li>
+									<li class="player value">&pound;{{ p.player.value }}m</li>
+									<li class="player points total">{{ p.points }}&nbsp;&nbsp;<span class="week in">week {{ p.week_in }}</span></li>
+									<li class="player points weekly">{{ p.week_points }}</li>
+								</ul>
+							</td>
+						{% endfor %}
+						</tr>
+					</table>
+				{% endfor %}
+				</td>
+			</tr>
+		</tbody>		
+	</table>
+</div>
+
+<a href="mailto:lee@lee-smith.me.uk?subject=FFL Transfers">
+<img alt="Make a substitution" id="sublink" src="{{ STATIC_URL }}subs.png"/>
+</a>
+
+{% if team.subs_used > 0 %}
+<div id="subscontainer">
+	<table class="centre" id="subs" summary="Subs Points">
+		<tbody>
+		{% for p in subs %}
+			<tr>
+				<td class="player"><a href="{% url 'players.views.player' p.player.code %}" class="name">{{ p.player.name }}</a></td>
+				<td class="player club">{{ p.player.club }}</td>
+				<td class="player value">&pound;{{ p.player.value }}m</td>
+				<td class="player points total">{{ p.points }}</td>
+				<td class="player date">{{ p.datetime_out|date:'d M' }}</td>
+				<td class="player week out">week {{ p.week_out }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>		
+	</table>
+</div>
+{% endif %}
+
+<img id="weeklyperformance" src="{% url 'teams.views.team_wp' team.manager|slugify %}" alt="Weekly Performance"/>
+
+{% endif %}
+
+{% endblock %}

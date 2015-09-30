@@ -1,0 +1,11 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+<file alias="ffl_logo.png">icons/ffl_logo.png</file>
+<file alias="exit.png">icons/exit.png</file>
+<file alias="about.png">icons/about.png</file>
+<file alias="update.png">icons/update.png</file>
+<file alias="team.png">icons/teams.png</file>
+<file alias="email.png">icons/mail.png</file>
+<file alias="settings.png">icons/settings.png</file>
+</qresource>
+</RCC>

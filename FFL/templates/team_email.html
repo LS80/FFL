@@ -1,0 +1,37 @@
+<html>
+<head>
+<style type="text/css">
+	body, table {font-family:Calibri;}
+	table {color: darkblue;}
+</style>
+</head>
+<body>
+<p>Hi {{ form.manager|truncatewords:1 }}</p>
+<p>Your team is shown below.</p>
+<table>
+	<caption><strong>{{ team.team_name }}</strong></caption>
+	{% for player in team.players.all %}
+    <tr>
+    	<td>{{ player.name }}</td>
+    	<td>{{ player.position }}</td>
+    	<td>{{ player.club }}</td>
+    	<td>&pound;{{ player.value }}m</td>
+	</tr>
+	{% endfor %}
+    <tr>
+    	<td></td>
+    	<td></td>
+    	<td></td>
+    	<td>_____</td>
+	</tr>
+    <tr>
+    	<td></td>
+    	<td></td>
+    	<td></td>
+    	<td><strong>&pound;{{ team.total_cost }}m</strong></td>
+	</tr>
+</table>
+<p>Thanks for taking part.</p>
+<p>Fantasy Football League</p>
+</body>
+</html>

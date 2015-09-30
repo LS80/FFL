@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block title %}Weekly Performance{% endblock %}
+
+{% block nav-weeklyperformance %}<strong class="active">Weekly Performance</strong>{% endblock %}
+
+{% block css %}
+<link href="{{ STATIC_URL }}table.css" rel="stylesheet" type="text/css" />
+<link href="{{ STATIC_URL }}sortable.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block js %}
+<script language="javascript" src="{{ STATIC_URL }}tablesort.js"></script>
+{% endblock %}
+
+
+{% block content %}
+<div id="container">
+	{% if week = 0 %}
+	<p>The weekly performance table will appear here when the season starts.</p>
+    {% else %}
+	<div>
+		{% if prev %}
+		<a class="alignleft" href="{% url 'teams.views.weekly_performance' weeknums|first|add:'-1' weeknums|last|add:'-1' %}">&lt;&lt;</a>
+		{% endif %}
+		{% if next %}
+		<a class="alignright" href="{% url 'teams.views.weekly_performance' weeknums|first|add:'1' weeknums|last|add:'1' %}">&gt;&gt;</a>
+		{% endif %}
+	</div>
+	<table class="sortable-onload-{{ weeknums|last }} no-arrow rowstyle-odd" summary="Weekly performance table">
+		<caption>Weekly Performance Table</caption>
+		<thead>
+			<tr>
+				<th class="sortable-sortSurname" scope="col">Manager</th>
+				{% for week in weeknums %}
+				<th class="sortable-numeric favour-reverse" scope="col">{{ week }}</th>
+				{% endfor %}
+			</tr>
+		</thead>
+		<tfoot><tr><th colspan="{{ ncols }}"></th></tr></tfoot>
+		<tbody>
+		{% regroup points by team as teams %}
+		{% for team in teams %}
+			<tr>
+				<td><a href="{% url 'teams.views.team' team.grouper|slugify %}">{{ team.grouper }}</a></td>
+				{% for item in team.list %}
+				<td>{{ item.points }}</td>
+				{% endfor %}
+			</tr>
+		{% endfor %}
+		</tbody>		
+	</table>
+	{% endif %}
+</div>
+{% endblock %}

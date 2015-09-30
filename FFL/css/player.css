@@ -1,0 +1,9 @@
+.team_list ul {
+text-align: left
+}
+
+.team_list li {
+display: inline;
+list-style-type: none;
+padding-right: 10px;
+}

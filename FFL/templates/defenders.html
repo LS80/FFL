@@ -1,0 +1,8 @@
+{% extends "players.html" %}
+{% load url from future %}
+
+{% block title %}Defenders{% endblock %}
+
+{% block nav-defenders %}<strong>Defenders</strong>{% endblock %}
+
+{% block csv %}<a href="{% url 'players.views.defenders_csv' %}">defenders.csv</a>{% endblock %}

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Submit Team{% endblock %}
+
+{% block nav-submit %}<strong class="active">Submit Team</strong>{% endblock %}
+
+{% block css %}
+    <link href="{{ STATIC_URL }}submit_team.css" rel="stylesheet" type="text/css" />
+    <link href="{{ STATIC_URL }}jquery.asmselect.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{{ STATIC_URL }}jquery.asmselect.js"></script>
+    <script type="text/javascript">
+	    function update_budget() {
+			var totalCost = 0;
+			$('.asmListItemLabel').each(function() {
+				var value = parseFloat($(this).text());
+				totalCost += value;
+			});
+			var remaining = {{ budget }}-totalCost
+			if (remaining < 0) {
+				$('#budget_rem').removeClass(); $('#budget_rem').addClass('negative')
+				}
+			else if (remaining > 0) {
+				$('#budget_rem').removeClass(); $('#budget_rem').addClass('positive')
+				}
+			$('#budget_rem').text('£'+remaining.toFixed(1)+'m');
+		}
+    </script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+		    $("select[multiple]").asmSelect({
+		        addItemTarget: 'bottom'
+			});
+		    
+		    update_budget();
+	
+			$('#id_goalkeeper').change(update_budget);
+			$('#id_defenders').change(update_budget);
+			$('#id_midfielders').change(update_budget);
+			$('#id_strikers').change(update_budget);
+		});
+	</script>
+{% endblock %}
+
+{% block content %}
+	<div class="text">
+		<p>Please use the form below to select your team, then click "Submit Team".<br>Teams submitted now will start scoring points from week {{ week }}.</p>
+	</div>
+	<div id="submit">
+		{% if form.errors %}
+	    <p id="error_msg">
+	        Please correct the error{{ form.errors|pluralize }} below.
+	    </p>
+	    {% endif %}
+	
+	    <form action="" method="post">
+	        <table id="select_team">
+	            {{ form.as_table }}
+				<tr><td></td><td><input type="submit" value="Submit Team"></td></tr>
+	        </table>
+	    </form>
+    </div>
+
+	<div id="budget">
+		<label class="info" for="budget_rem">Remaining Budget:</label><span id="budget_rem"></span>
+	</div>
+	
+{% endblock %}
